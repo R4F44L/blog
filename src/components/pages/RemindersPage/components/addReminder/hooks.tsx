@@ -1,13 +1,13 @@
 import { mutationURL, REMINDER_TYPE } from "@/consts";
 import { api } from "@/axios";
 import { useMutation } from "@tanstack/react-query";
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { AddOrReplaceTodo, AddReminderProps, AddTodo } from "./types";
+import { AddOrReplaceReminder, AddReminderProps, AddReminder } from "./types";
 import { AxiosResponse } from "axios";
 
-const mutationFn = (data: AddOrReplaceTodo) => {
+const mutationFn = (data: AddOrReplaceReminder) => {
   const body = {
     mutations: [{ createOrReplace: { ...data, _type: REMINDER_TYPE } }],
   };
@@ -18,14 +18,14 @@ const mutationFn = (data: AddOrReplaceTodo) => {
 };
 
 export const useAddReminder = ({ reminder, callback }: AddReminderProps) => {
-  const { register, handleSubmit, watch } = useForm<AddTodo>({
+  const { register, handleSubmit, reset } = useForm<AddReminder>({
     defaultValues: { title: reminder?.title },
   });
 
   const { mutateAsync } = useMutation({ mutationFn });
 
   const addReminder = useCallback(
-    async (data: AddTodo) => {
+    async (data: AddReminder) => {
       try {
         const newData = { ...reminder, ...data };
         const response = await mutateAsync(newData);
@@ -50,9 +50,12 @@ export const useAddReminder = ({ reminder, callback }: AddReminderProps) => {
     [addReminder, handleSubmit]
   );
 
+  useEffect(() => {
+    reset(reminder);
+  }, [reminder, reset]);
+
   return {
     register,
-    watch,
     onSubmit,
   };
 };
