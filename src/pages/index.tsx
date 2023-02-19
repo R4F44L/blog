@@ -3,7 +3,7 @@ import client from "apollo-client";
 import { gql } from "@apollo/client";
 import { GetServerSideProps } from "next";
 import { ReminderType } from "@/types/models/reminders";
-import { RemindersPage } from "@/components/RemindersPage";
+import { RemindersPage } from "@/components/pages/RemindersPage";
 
 export const getServerSideProps: GetServerSideProps<{
   reminders: ReminderType[];

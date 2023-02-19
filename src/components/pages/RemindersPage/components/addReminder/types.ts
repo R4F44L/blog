@@ -1,12 +1,12 @@
 import { ReminderType, Title } from "@/types/models/reminders";
 
-export type AddTodo = {
+export type AddReminder = {
   title: Title;
 };
 
-export type UpdateTodo = ReminderType | undefined;
+export type UpdateReminder = ReminderType | undefined;
 
-export type AddOrReplaceTodo = AddTodo | UpdateTodo;
+export type AddOrReplaceReminder = AddReminder | UpdateReminder;
 
 export type AddReminderProps = {
   reminder: ReminderType | undefined;
